@@ -109,4 +109,12 @@ function getLearnerData(course, ag, submissions) {
   //following is my function
   //to get learner data
 
-  function getLearnerData(course, ag, submissions)
+  function getLearnerData(course, ag, submissions){
+  /*If an AssignmentGroup does not belong to its course (mismatching course_id),
+   your program should throw an error, 
+   letting the user know that the input was invalid.
+    Similar data validation should occur elsewhere within the program.
+  */
+ if(course.id !==ag.course_id){console.log("assignment group  "+ag.name+"  does not match course "+ course.name + ".");}
+
+ }
