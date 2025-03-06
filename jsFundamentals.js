@@ -159,13 +159,29 @@ function getLearnerData(course, ag, submissions) {
   LearnerSubmissions.forEach((learner_id) => {
     let learnerTotalScore = 0; //this will be totl score
     let learnerTotalPossible = 0; //how many points they could gotten in total
-    letlearnerResult - { id: learner_id }; //i start with their id
+    let learnerResult = { id: learner_id }; //i start with their id
   });
 
   /*
 contenue here do following:
     for each valid assignment, I will calculate how well they did
 If this learner did the assignment
+*/
+validAssignment.forEach(assigments=>{
+    const submission=submissions.find(sub=>sub.learner_id===learner_id && sub.assignment_id===assignment.id);
+    if (submission){
+        let score=submission.submission.score;
+        let possible=assigments.points_possible;
+
+        if (isNaN(score)||isNaN(possible)){
+            console.error('there is somthing wrong wih the date of learning.');
+            return;
+        }
+
+    }
+
+})
+/*
 
 If the score or possible points are not numbers, I print an error
 
