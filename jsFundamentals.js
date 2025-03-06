@@ -269,7 +269,6 @@
 
 
 //different data than sandbox
-
 const CourseInfo = {
     id: 572, // This is the ID for my new course
     name: "Advanced Python Programming", // The name of my course is "Advanced Python Programming"
@@ -345,98 +344,94 @@ const CourseInfo = {
     },
   ];
   
-
-
-
-//clean code
-
-
-
-
-function getLearnerData(course, ag, submissions) {
+  // clean code
+  function getLearnerData(course, ag, submissions) {
+    try {
+      // Validate the course and assignment group
+      if (course.id !== ag.course_id) {
+        console.log("Assignment group " + ag.name + " does not match course " + course.name + ".");
+        return [];
+      }
   
-  try{
-    // Validate the course and assignment group
-    if (course.id !== ag.course_id) {
-      console.log("Assignment group " + ag.name + " does not match course " + course.name + ".");
+      // Filter assignments to include those that are due
+      const validAssignments = [];
+      for (let i = 0; i < ag.assignments.length; i++) {
+        if (new Date(ag.assignments[i].due_at) <= new Date()) {
+          validAssignments.push(ag.assignments[i]);
+        }
+      }
+  
+      const result = [];
+  
+      // Find unique learners
+      const learners = [];
+      for (let i = 0; i < submissions.length; i++) {
+        const learnerId = submissions[i].learner_id;
+        if (learners.indexOf(learnerId) === -1) {
+          learners.push(learnerId);
+        }
+      }
+  
+      // Calculate results for each learner
+      for (let i = 0; i < learners.length; i++) {
+        const learner_id = learners[i];
+        let learnerTotalScore = 0; // This will be the total score
+        let learnerTotalPossible = 0; // How many points they could have gotten in total
+        let learnerResult = { id: learner_id };
+  
+        // Process each valid assignment
+        for (let j = 0; j < validAssignments.length; j++) {
+          const assignment = validAssignments[j];
+          const submission = submissions.find(sub => sub.learner_id === learner_id && sub.assignment_id === assignment.id);
+  
+          if (submission) {
+            let score = submission.submission.score;
+            let possible = assignment.points_possible;
+  
+            // Check for invalid data
+            if (isNaN(score) || isNaN(possible)) {
+              console.error("Invalid data for learner " + learner_id);
+              continue; // Skip this iteration
+            }
+  
+            if (possible === 0) {
+              console.error("Assignment has 0 points possible");
+              continue; // Skip this iteration
+            }
+  
+            // Deduct 10% for late submissions
+            const dueDate = new Date(assignment.due_at);
+            const submittedAt = new Date(submission.submission.submitted_at);
+            if (submittedAt > dueDate) {
+              score -= 0.1 * possible; // Deduct 10% for being late
+            }
+  
+            // Calculate their score as a percentage
+            const normalScore = score / possible;
+            learnerResult[assignment.id] = normalScore;
+  
+            // Add to total score and total possible points
+            learnerTotalScore += score;
+            learnerTotalPossible += possible;
+          }
+        }
+  
+        // Calculate average score
+        if (learnerTotalPossible > 0) {
+          learnerResult.avg = learnerTotalScore / learnerTotalPossible;
+        } else {
+          learnerResult.avg = 0; // In case they didn't do any assignments
+        }
+  
+        result.push(learnerResult);
+      }
+  
+      return result; // Return the list of results
+    } catch (error) {
+      console.error("Error happened in processing learner data: ", error.message);
       return [];
     }
-  
-    // Filter assignments to include those that are due
-    const validAssignments = [];
-    for (let i = 0; i < ag.assignments.length; i++) {
-      if (new Date(ag.assignments[i].due_at) <= new Date()) {
-        validAssignments.push(ag.assignments[i]); // Fix the typo from 'assigments' to 'assignments'
-      }
-    }
-  
-    const result = [];
-    
-    // Find unique learners
-    const learners = [];
-    for (let i = 0; i < submissions.length; i++) {
-      const learnerId = submissions[i].learner_id;
-      if (learners.indexOf(learnerId) === -1) {
-        learners.push(learnerId);
-      }
-    }
-  
-    // Calculate results for each learner
-    learners.forEach(learner_id => {
-      let learnerTotalScore = 0; // This will be the total score
-      let learnerTotalPossible = 0; // How many points they could have gotten in total
-      let learnerResult = { id: learner_id }; // Start with their ID
-  
-      // Process each valid assignment
-      validAssignments.forEach(assignment => {
-        const submission = submissions.find(sub => sub.learner_id === learner_id && sub.assignment_id === assignment.id);
-        
-        if (submission) {
-          let score = submission.submission.score;
-          let possible = assignment.points_possible;
-  
-          // Check for invalid data
-          if (isNaN(score) || isNaN(possible)) {
-            console.error("There is something wrong with the data for learner " + learner_id);
-            return;
-          }
-  
-          if (possible === 0) {
-            console.error("The assignment has 0 points possible");
-            return;
-          }
-  
-          // Deduct 10% for late submissions
-          const dueDate = new Date(assignment.due_at);
-          const submittedAt = new Date(submission.submission.submitted_at);
-          if (submittedAt > dueDate) {
-            score -= 0.1 * possible; // Deduct 10% for being late
-          }
-  
-          // Calculate their score as a percentage
-          const normalScore = score / possible;
-          learnerResult[assignment.id] = normalScore;
-  
-          // Add to total score and total possible points
-          learnerTotalScore += score;
-          learnerTotalPossible += possible;
-        }
-      });
-  
-      // Calculate average score
-      if (learnerTotalPossible > 0) {
-        learnerResult.avg = learnerTotalScore / learnerTotalPossible;
-      } else {
-        learnerResult.avg = 0; // In case they didn't do any assignments
-      }
-  
-      result.push(learnerResult);
-    });
-  
-    return result; // Return the list of results
-  }catch (error){("error happened in processing learner date:  ", error.message);
-  return[];
-}}
+  }
   
   // Output
   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
