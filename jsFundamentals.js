@@ -115,6 +115,19 @@ function getLearnerData(course, ag, submissions) {
    letting the user know that the input was invalid.
     Similar data validation should occur elsewhere within the program.
   */
- if(course.id !==ag.course_id){console.log("assignment group  "+ag.name+"  does not match course "+ course.name + ".");}
+ if(course.id !==ag.course_id){console.log("assignment group  "+ag.name+"  does not match course "+ course.name + ".");
+    return[];
+ }
+
+   // Filter assignments to only include those that are due
+/*You should also account for potential errors in the data that your program receives.
+ What if points_possible is 0?
+  You cannot divide by zero. 
+  What if a value that you are expecting to be a number is instead a string? 
+*/
+const validAssignment=[];
+for (let i=0;i<ag.assignments.length;i++){
+    if()
+}
 
  }
