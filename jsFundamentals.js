@@ -141,6 +141,23 @@ function getLearnerData(course, ag, submissions) {
       validAssignment.push(ag.assigments[i]);
     }
   }
+
+  //i creat an empty list wherer i will put all the learer's scores
+  const result=[];
+
+  //i need to find all the learners who have submitted something
+// Create an array of unique learner IDs
+const learners = [];
+for (let i = 0; i < submissions.length; i++) {
+  const learnerId = submissions[i].learner_id;
+  if (learners.indexOf(learnerId) === -1) {
+    learners.push(learnerId);
+  }
+}
+//for each learner i will calculate their scores
+
+LearnerSubmissions.forEach)
+
 }
 
 //output
