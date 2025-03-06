@@ -127,7 +127,15 @@ function getLearnerData(course, ag, submissions) {
 */
 const validAssignment=[];
 for (let i=0;i<ag.assignments.length;i++){
-    if()
+    if(new Date(ag.assignments[i].due_at)<=new Date()){
+        validAssignment.push(ag.assigments[i]);
+    }
 }
 
+
  }
+
+
+ //output
+ const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
+console.log(result);
