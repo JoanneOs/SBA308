@@ -156,10 +156,42 @@ for (let i = 0; i < submissions.length; i++) {
 }
 //for each learner i will calculate their scores
 
-LearnerSubmissions.forEach)
+LearnerSubmissions.forEach(learner_id=>{
+    let learnerTotalScore=0;//this will be totl score
+    let learnerTotalPossible=0;//how many points they could gotten in total
+    letlearnerResult-{id:learner_id};//i start with their id
+})
+
+
+
+/*
+contenue here do following:
+    for each valid assignment, I will calculate how well they did
+If this learner did the assignment
+
+If the score or possible points are not numbers, I print an error
+
+If the assignment is worth 0 points, I don't want to divide by 0
+            
+
+If the learner was late, I take 10% off their score
+
+calculate their score as a percentage (how many points out of the total possible)
+
+add their score and total points to the totals
+
+
+I calculate their average score if they did any assignments
+
+add this learner's result to the list of results
+
+
+dont forget try and catch
+*/
+
 
 }
 
-//output
+//output here’s how I run the function to get the results
 const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
-console.log(result);
+console.log(result); // This will print the learners' scores
