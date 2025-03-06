@@ -177,6 +177,20 @@ validAssignment.forEach(assigments=>{
             console.error('there is somthing wrong wih the date of learning.');
             return;
         }
+        if (possible===0){ 
+            console.error('the assignment has 0 points possible ');
+            return;
+
+        }
+
+        //iflearner was late, i take 10% off thier score
+        const dueDate=new Date(assignment.due_at);
+        const submittedAt=new Date(submisssion.submission.submitted_at);
+        if(submittedAt>dueDate){
+            score=score-(0.1*possible);//deduct 10% for being late
+
+        }
+//I now calcualte there score as a precentage like how many points out of possible
 
     }
 
