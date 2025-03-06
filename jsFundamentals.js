@@ -354,6 +354,8 @@ const CourseInfo = {
 
 
 function getLearnerData(course, ag, submissions) {
+  
+  try{
     // Validate the course and assignment group
     if (course.id !== ag.course_id) {
       console.log("Assignment group " + ag.name + " does not match course " + course.name + ".");
@@ -432,7 +434,9 @@ function getLearnerData(course, ag, submissions) {
     });
   
     return result; // Return the list of results
-  }
+  }catch (error){("error happened in processing learner date:  ", error.message);
+  return[];
+}}
   
   // Output
   const result = getLearnerData(CourseInfo, AssignmentGroup, LearnerSubmissions);
