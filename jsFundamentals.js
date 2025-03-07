@@ -406,19 +406,22 @@ const CourseInfo = {
               score -= 0.1 * possible; // Deduct 10% for being late
             }
   
-            // Calculate their score as a percentage
-            const normalScore = score / possible;
-            learnerResult[assignment.id] = normalScore;
+                // Calculate their score as a percentage
+            const normalScore = score /possible;
+            learnerResult[assignment.id]= normalScore;
   
             // Add to total score and total possible points
-            learnerTotalScore += score;
+            learnerTotalScore +=score;
             learnerTotalPossible += possible;
+            console.log("learner total possible "+learnerTotalPossible);
           }
         }
   
         // Calculate average score
-        if (learnerTotalPossible > 0) {
+        if (learnerTotalPossible > 0)
+             {
           learnerResult.avg = learnerTotalScore / learnerTotalPossible;
+          console.log("learner ave "+learnerResult.avg);
         } else {
           learnerResult.avg = 0; // In case they didn't do any assignments
         }
