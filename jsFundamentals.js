@@ -358,6 +358,7 @@ const CourseInfo = {
       for (let i = 0; i < ag.assignments.length; i++) {
         if (new Date(ag.assignments[i].due_at) <= new Date()) {
           validAssignments.push(ag.assignments[i]);
+          console.log("valid assignment  "+ validAssignments);
         }
       }
   
